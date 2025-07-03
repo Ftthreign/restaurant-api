@@ -4,7 +4,6 @@ import { UpdateDishDto } from './dto/update-dish.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Dish } from './entities/dish.entity';
 import { Repository } from 'typeorm';
-import { RestaurantService } from 'src/restaurant/restaurant.service';
 import { defaultResponse } from 'src/utils/defaultResponse';
 
 @Injectable()
@@ -12,31 +11,20 @@ export class DishService {
   constructor(
     @InjectRepository(Dish)
     private readonly dishRepository: Repository<Dish>,
-    private readonly restaurantService: RestaurantService,
   ) {}
 
   async create(createDishDto: CreateDishDto): Promise<Dish> {
-    const restaurant = await this.restaurantService.findOne(
-      createDishDto.restaurantId,
-    );
-
-    const newDish = this.dishRepository.create({
-      ...createDishDto,
-      restaurant,
-    });
-
+    const newDish = this.dishRepository.create(createDishDto);
     return this.dishRepository.save(newDish);
   }
 
   async findAll(): Promise<Dish[] | defaultResponse> {
-    const dishes = await this.dishRepository.find({
-      relations: ['restaurant'],
-    });
+    const dishes = await this.dishRepository.find(); // tidak lagi include relasi restaurant
 
     if (dishes.length === 0) {
       return {
         status: 'success',
-        message: 'Dishes data empty',
+        message: 'Dishes data',
         data: [],
       };
     }
@@ -45,10 +33,7 @@ export class DishService {
   }
 
   async findOne(id: string): Promise<Dish> {
-    const dish = await this.dishRepository.findOne({
-      where: { id },
-      relations: ['restaurant'],
-    });
+    const dish = await this.dishRepository.findOne({ where: { id } });
 
     if (!dish) {
       throw new NotFoundException(`Dish with id ${id} not found`);
@@ -59,11 +44,6 @@ export class DishService {
 
   async update(id: string, updateDishDto: UpdateDishDto): Promise<Dish> {
     const dish = await this.findOne(id);
-
-    if (updateDishDto.restaurantId)
-      dish.restaurant = await this.restaurantService.findOne(
-        updateDishDto.restaurantId,
-      );
 
     this.dishRepository.merge(dish, updateDishDto);
     return this.dishRepository.save(dish);

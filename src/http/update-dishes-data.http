@@ -1,0 +1,6 @@
+PATCH http://localhost:3000/dish/917226e9-c9e4-466e-82bc-2b1c3cf09818
+Content-Type: application/json
+
+{
+  "description": "Sate ayam khas Madura dengan bumbu kacang yang gurih"
+}

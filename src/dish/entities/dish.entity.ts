@@ -1,5 +1,11 @@
 import { Restaurant } from 'src/restaurant/entities/restaurant.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Dish {
@@ -10,13 +16,17 @@ export class Dish {
   name: string;
 
   @Column({ type: 'text', nullable: true })
-  desription: string;
+  description: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
+  @Column()
+  restaurantId: string;
+
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.dishes, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'restaurantId' })
   restaurant: Restaurant;
 }

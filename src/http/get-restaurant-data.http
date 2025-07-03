@@ -1,0 +1,6 @@
+GET http://localhost:3000/restaurant
+
+
+### Restaurant with specific id
+
+GET http://localhost:3000/restaurant/598f64d0-7224-4b8b-a178-e16cae0166bb
