@@ -1,0 +1,54 @@
+### Dish 1
+POST http://localhost:3000/dish
+Content-Type: application/json
+
+{
+  "name": "Sate Ayam Madura",
+  "description": "Sate ayam khas Madura dengan bumbu kacang yang gurih.",
+  "price": 25000,
+  "restaurantId": "c57d8b0a-7ec0-4d40-9f98-3f0cf81be785"
+}
+
+### Dish 2
+POST http://localhost:3000/dish
+Content-Type: application/json
+
+{
+  "name": "Sate Kambing",
+  "description": "Sate kambing empuk dengan kecap manis dan irisan bawang.",
+  "price": 30000,
+  "restaurantId": "c57d8b0a-7ec0-4d40-9f98-3f0cf81be785"
+}
+
+### Dish 3
+POST http://localhost:3000/dish
+Content-Type: application/json
+
+{
+  "name": "Sate Kulit",
+  "description": "Sate kulit ayam dengan cita rasa gurih dan renyah.",
+  "price": 18000,
+  "restaurantId": "c57d8b0a-7ec0-4d40-9f98-3f0cf81be785"
+}
+
+### Dish 4
+POST http://localhost:3000/dish
+Content-Type: application/json
+
+{
+  "name": "Sate Usus",
+  "description": "Sate usus ayam yang dimasak dengan bumbu manis pedas.",
+  "price": 15000,
+  "restaurantId": "c57d8b0a-7ec0-4d40-9f98-3f0cf81be785"
+}
+
+### Dish 5
+POST http://localhost:3000/dish
+Content-Type: application/json
+
+{
+  "name": "Sate Ati Ampela",
+  "description": "Sate ati ampela yang dibakar dengan bumbu rempah khas.",
+  "price": 20000,
+  "restaurantId": "c57d8b0a-7ec0-4d40-9f98-3f0cf81be785"
+}

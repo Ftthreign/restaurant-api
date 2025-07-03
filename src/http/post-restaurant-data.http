@@ -1,0 +1,64 @@
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Restoran Nusantara",
+  "address": "Jl. Gajah Mada No. 45",
+  "cuisines": ["Indonesia", "Asia"],
+  "isOpen": true
+}
+
+### 1. Warung Pagi Ceria
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Warung Pagi Ceria",
+  "address": "Jl. Merdeka No. 12",
+  "cuisines": ["Tradisional"],
+  "isOpen": true
+}
+
+### 2. Sate Barokah
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Sate Barokah",
+  "address": "Jl. Pemuda No. 10",
+  "cuisines": ["Sate", "Madura"],
+  "isOpen": false
+}
+
+### 3. Bakso Mantap
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Bakso Mantap",
+  "address": "Jl. Sudirman No. 89",
+  "cuisines": ["Bakso", "Jawa"],
+  "isOpen": true
+}
+
+### 4. Nasi Padang Mak Yus
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Nasi Padang Mak Yus",
+  "address": "Jl. Veteran No. 34",
+  "cuisines": ["Padang"],
+  "isOpen": true
+}
+
+### 5. Dimsum Delight
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+  "name": "Dimsum Delight",
+  "address": "Jl. Asia Afrika No. 5",
+  "cuisines": ["Chinese", "Dimsum"],
+  "isOpen": false
+}
