@@ -1,17 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Redirect } from '@nestjs/common';
 import { AppService } from './app.service';
+import { HttpStatus } from './utils/httpStatus';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Get('test')
-  getDeveloperName(): string {
-    return 'This endpoint is code with Fadhil';
-  }
+  @Redirect('/restaurant', HttpStatus.REDIRECT)
+  redirectToRestaurant() {}
 }

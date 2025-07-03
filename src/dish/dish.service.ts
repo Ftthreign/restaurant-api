@@ -19,7 +19,7 @@ export class DishService {
   }
 
   async findAll(): Promise<Dish[] | defaultResponse> {
-    const dishes = await this.dishRepository.find(); // tidak lagi include relasi restaurant
+    const dishes = await this.dishRepository.find();
 
     if (dishes.length === 0) {
       return {

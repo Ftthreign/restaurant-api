@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { Restaurant } from './entities/restaurant.entity';
 import { defaultResponse } from 'src/utils/defaultResponse';
-import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
 
 @Injectable()
 export class RestaurantService {
@@ -28,22 +27,29 @@ export class RestaurantService {
         status: 'success',
         message: 'Restaurant data is empty',
         data: [],
-        httpCode: HttpStatus.NO_CONTENT,
       };
     }
 
     return restaurants;
   }
 
-  async findOne(id: string): Promise<Restaurant> {
+  async findOne(id: string): Promise<any> {
     const restaurant = await this.restaurantRepository.findOne({
       where: { id },
+      relations: ['dishes'],
     });
 
     if (!restaurant)
       throw new NotFoundException(`Restaurant with id ${id} not found`);
 
-    return restaurant;
+    const { dishes, ...rest } = restaurant;
+
+    const filteredData = dishes.map(({ restaurantId, ...dish }) => dish);
+
+    return {
+      ...rest,
+      dishes: filteredData,
+    };
   }
 
   async update(id: string, updateRestaurantDto: UpdateRestaurantDto) {
