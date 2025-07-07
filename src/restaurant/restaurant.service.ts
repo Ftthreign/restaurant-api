@@ -6,6 +6,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { Restaurant } from './entities/restaurant.entity';
 import { defaultResponse } from 'src/utils/defaultResponse';
+import { Dish } from 'src/dish/entities/dish.entity';
+
+type DishWithoutRestaurantId = Omit<Dish, 'restaurantId'>;
+
+type RestaurantWithModifiedDishes = Omit<Restaurant, 'dishes'> & {
+  dishes: DishWithoutRestaurantId[];
+};
 
 @Injectable()
 export class RestaurantService {
@@ -30,10 +37,12 @@ export class RestaurantService {
       };
     }
 
+    console.log(restaurants);
+
     return restaurants;
   }
 
-  async findOne(id: string): Promise<any> {
+  async findOne(id: string): Promise<RestaurantWithModifiedDishes> {
     const restaurant = await this.restaurantRepository.findOne({
       where: { id },
       relations: ['dishes'],
@@ -52,8 +61,20 @@ export class RestaurantService {
     };
   }
 
+  async findOneById(id: string): Promise<Restaurant> {
+    const restaurant = await this.restaurantRepository.findOne({
+      where: { id },
+      relations: ['dishes'],
+    });
+
+    if (!restaurant)
+      throw new NotFoundException(`Restaurant with id ${id} not found`);
+
+    return restaurant;
+  }
+
   async update(id: string, updateRestaurantDto: UpdateRestaurantDto) {
-    const restaurant = await this.findOne(id);
+    const restaurant = await this.findOneById(id);
 
     this.restaurantRepository.merge(restaurant, updateRestaurantDto);
 

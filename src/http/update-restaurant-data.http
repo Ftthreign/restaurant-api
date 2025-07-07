@@ -1,0 +1,6 @@
+PATCH http://localhost:3000/restaurant/c57d8b0a-7ec0-4d40-9f98-3f0cf81be785
+Content-Type: application/json
+
+{
+  "name" : "Sate barokah Pak Kris dan Cumi Hitam"
+}

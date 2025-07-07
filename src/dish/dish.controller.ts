@@ -10,19 +10,23 @@ import {
 import { DishService } from './dish.service';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
+import { ParseUUIDPipe } from '@nestjs/common/pipes';
 
-@Controller('dish')
+@Controller('restaurant/:restaurantId/dish')
 export class DishController {
   constructor(private readonly dishService: DishService) {}
 
   @Post()
-  create(@Body() createDishDto: CreateDishDto) {
-    return this.dishService.create(createDishDto);
+  create(
+    @Param('restaurantId', ParseUUIDPipe) restaurantId: string,
+    @Body() createDishDto: CreateDishDto,
+  ) {
+    return this.dishService.create(restaurantId, createDishDto);
   }
 
   @Get()
-  findAll() {
-    return this.dishService.findAll();
+  findAll(@Param('restaurantId', ParseUUIDPipe) restaurantId: string) {
+    return this.dishService.findAll(restaurantId);
   }
 
   @Get(':id')
