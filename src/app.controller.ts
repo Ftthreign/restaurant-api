@@ -1,12 +1,16 @@
 import { Controller, Get, Redirect } from '@nestjs/common';
-import { AppService } from './app.service';
 import { HttpStatus } from './utils/httpStatus';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Default Endpoint')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Get()
-  @Redirect('/restaurant', HttpStatus.REDIRECT)
-  redirectToRestaurant() {}
+  @Redirect('/users/register', HttpStatus.REDIRECT)
+  @ApiOperation({ summary: 'Redirect to the registration page' })
+  @ApiResponse({
+    status: HttpStatus.REDIRECT,
+    description: 'Redirects to the registration page.',
+  })
+  redirectToRegisterUser() {}
 }
