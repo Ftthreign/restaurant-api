@@ -1,5 +1,6 @@
 POST http://localhost:3000/restaurant
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im93bmVycmVzdG8xMjNAZXhhbXBsZS5jb20iLCJzdWIiOiJhM2Q4NmU5Mi04NzEyLTQ3MjgtODA0ZS1jZWFmNjEzMTA5YWIiLCJyb2xlIjoib3duZXIiLCJpYXQiOjE3NTIwMjM5ODUsImV4cCI6MTc1MjAyNzU4NX0.pkupm6LmfAafpffVQtAMuS-lQ2uOO7FOEy_patB2Zvs
 
 {
   "name": "Restoran Nusantara",
