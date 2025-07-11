@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +10,7 @@ import { Dish } from './entities/dish.entity';
 import { Repository } from 'typeorm';
 import { defaultResponse } from 'src/utils/defaultResponse';
 import { RestaurantService } from 'src/restaurant/restaurant.service';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class DishService {
@@ -18,6 +23,7 @@ export class DishService {
   async create(
     restaurantId: string,
     createDishDto: CreateDishDto,
+    currentUser: User,
   ): Promise<Dish> {
     const validateRestaurant =
       await this.restaurantService.findOneById(restaurantId);
@@ -25,6 +31,11 @@ export class DishService {
       ...createDishDto,
       restaurant: validateRestaurant,
     });
+
+    if (validateRestaurant.owner.id !== currentUser.id)
+      throw new ForbiddenException(
+        'You are not allowed to create a dish for this restaurant',
+      );
 
     return this.dishRepository.save(newDish);
   }
@@ -60,8 +71,16 @@ export class DishService {
     return dish;
   }
 
-  async update(id: string, updateDishDto: UpdateDishDto): Promise<Dish> {
+  async update(
+    id: string,
+    updateDishDto: UpdateDishDto,
+    currentUser: User,
+  ): Promise<Dish> {
     const dish = await this.findOne(id);
+
+    if (dish.restaurant.owner.id !== currentUser.id) {
+      throw new ForbiddenException('You are not allowed to update this dish');
+    }
 
     this.dishRepository.merge(dish, updateDishDto);
     return this.dishRepository.save(dish);

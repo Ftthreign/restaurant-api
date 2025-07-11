@@ -7,6 +7,7 @@ import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception
 import { Restaurant } from './entities/restaurant.entity';
 import { defaultResponse } from 'src/utils/defaultResponse';
 import { Dish } from 'src/dish/entities/dish.entity';
+import { User } from 'src/users/entities/user.entity';
 
 type DishWithoutRestaurantId = Omit<Dish, 'restaurantId'>;
 
@@ -21,8 +22,14 @@ export class RestaurantService {
     private readonly restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  async create(createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
-    const newRestaurant = this.restaurantRepository.create(createRestaurantDto);
+  async create(
+    owner: User,
+    createRestaurantDto: CreateRestaurantDto,
+  ): Promise<Restaurant> {
+    const newRestaurant = this.restaurantRepository.create({
+      ...createRestaurantDto,
+      owner: owner,
+    });
     return this.restaurantRepository.save(newRestaurant);
   }
 
@@ -42,10 +49,12 @@ export class RestaurantService {
     return restaurants;
   }
 
-  async findOne(id: string): Promise<RestaurantWithModifiedDishes> {
+  async findOne(
+    id: string,
+  ): Promise<RestaurantWithModifiedDishes | Restaurant> {
     const restaurant = await this.restaurantRepository.findOne({
       where: { id },
-      relations: ['dishes'],
+      relations: ['owner', 'dishes'],
     });
 
     if (!restaurant)
